@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moto X3M | Classroom Arcade</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
 html, body {
   margin: 0;
@@ -14,7 +16,7 @@ html, body {
   font-family: "Press Start 2P", monospace;
 }
 
-/* FULLSCREEN GAME SHELL */
+/* MAIN GAME SHELL */
 .game-shell {
   position: relative;
   width: 100vw;
@@ -22,7 +24,7 @@ html, body {
   background: #000;
 }
 
-/* IFRAME MASKING & SCALE */
+/* IFRAME MASKING */
 iframe {
   position: absolute;
   width: 120%;
@@ -34,31 +36,40 @@ iframe {
   background: #000;
 }
 
-/* BRAND OVERLAY */
+/* BRANDING */
 .overlay-brand {
   position: absolute;
   top: 12px;
   left: 16px;
-  z-index: 50;
-  font-family: "Press Start 2P", monospace;
+  z-index: 60;
   font-size: 10px;
   color: #00fff7;
   text-shadow: 0 0 10px #00fff7;
   pointer-events: none;
 }
 
-/* AD SPACE */
-#ad {
+/* CRT SCANLINES */
+.crt {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background: rgba(255,255,255,0.05);
-  color: #aaa;
-  text-align: center;
-  line-height: 60px;
-  font-size: 10px;
+  inset: 0;
+  pointer-events: none;
   z-index: 50;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.03) 1px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 3px
+    );
+  mix-blend-mode: overlay;
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.85; }
+  50% { opacity: 1; }
+  100% { opacity: 0.9; }
 }
 
 /* LOADING SCREEN */
@@ -80,12 +91,12 @@ iframe {
   50% { opacity: 0.4; }
 }
 
-/* OPTIONAL FULLSCREEN BUTTON */
+/* FULLSCREEN BUTTON */
 #fullscreen-btn {
   position: absolute;
   top: 12px;
   right: 16px;
-  z-index: 60;
+  z-index: 70;
   font-family: inherit;
   font-size: 10px;
   padding: 6px 10px;
@@ -93,24 +104,42 @@ iframe {
   border: none;
   cursor: pointer;
 }
+
+/* AD SLOT */
+#ad {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(255,255,255,0.05);
+  color: #aaa;
+  text-align: center;
+  line-height: 60px;
+  font-size: 10px;
+  z-index: 70;
+}
 </style>
 </head>
+
 <body>
 
 <div class="game-shell">
+
   <div id="loading">LOADING GAME…</div>
 
-  <!-- BRANDING -->
   <div class="overlay-brand">CLASSROOM ARCADE</div>
+  <div class="crt"></div>
 
-  <!-- OPTIONAL FULLSCREEN BUTTON -->
   <button id="fullscreen-btn" onclick="openFS()">FULLSCREEN</button>
 
-  <!-- GAME IFRAME -->
-  <iframe id="gameFrame" src="https://dnrweqffuwjtx.cloudfront.net/moto-x3m/" allowfullscreen></iframe>
+  <iframe
+    id="gameFrame"
+    src="https://dnrweqffuwjtx.cloudfront.net/moto-x3m/"
+    allowfullscreen>
+  </iframe>
 
-  <!-- AD SLOT -->
   <div id="ad">ADVERTISEMENT</div>
+
 </div>
 
 <script>
@@ -119,13 +148,12 @@ frame.onload = () => {
   document.getElementById("loading").style.display = "none";
 };
 
-// DISABLE RIGHT CLICK
 document.addEventListener("contextmenu", e => e.preventDefault());
 
-// USER-TRIGGERED FULLSCREEN
 function openFS() {
   document.documentElement.requestFullscreen();
 }
 </script>
+
 </body>
 </html>
