@@ -3,107 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOTO X3M | Classroom Arcade</title>
-
+<title>Moto X3M | Classroom Arcade</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
-body, html {
+html, body {
   margin: 0;
-  padding: 0;
   height: 100%;
-  background: #0b0b1a;
-  font-family: "Press Start 2P", Arial, sans-serif;
   overflow: hidden;
+  background: #000;
+  font-family: "Press Start 2P", monospace;
 }
 
-/* Elite arcade frame */
-.arcade-frame {
+/* FULLSCREEN GAME SHELL */
+.game-shell {
   position: relative;
-  width: 100%;
-  height: 100%;
-  border: 20px solid #ff3ec1;
-  border-radius: 12px;
-  box-shadow:
-    0 0 30px #ff3ec1,
-    0 0 60px #00fff7,
-    0 0 90px #ff3ec1;
-  background: linear-gradient(145deg, #07071f, #111133);
+  width: 100vw;
+  height: 100vh;
+  background: #000;
 }
 
-/* Header */
-header {
+/* IFRAME MASKING & SCALE */
+iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: linear-gradient(90deg, #111133, #05050f);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 4px solid #00fff7;
-  z-index: 999;
-}
-
-header h1 {
-  font-size: 14px;
-  color: #00fff7;
-  text-shadow: 0 0 12px #00fff7;
-}
-
-header button {
-  font-family: "Press Start 2P";
-  font-size: 12px;
-  padding: 6px 10px;
-  background: #ff3ec1;
-  color: black;
+  width: 120%;
+  height: 120%;
+  top: -10%;
+  left: -10%;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  transform: scale(1.05);
+  background: #000;
 }
 
-/* Ad banner */
-#ad-slot {
+/* BRAND OVERLAY */
+.overlay-brand {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 50;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: #00fff7;
+  text-shadow: 0 0 10px #00fff7;
+  pointer-events: none;
+}
+
+/* AD SPACE */
+#ad {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 60px;
   background: rgba(255,255,255,0.05);
-  border-top: 2px solid #ff3ec1;
+  color: #aaa;
   text-align: center;
   line-height: 60px;
-  font-size: 12px;
-  color: #fff;
-  z-index: 998;
+  font-size: 10px;
+  z-index: 50;
 }
 
-/* Game iframe */
-iframe {
+/* LOADING SCREEN */
+#loading {
   position: absolute;
-  top: 60px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 120px); /* header + ad */
+  inset: 0;
+  background: #000;
+  color: #00fff7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  z-index: 100;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* OPTIONAL FULLSCREEN BUTTON */
+#fullscreen-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  z-index: 60;
+  font-family: inherit;
+  font-size: 10px;
+  padding: 6px 10px;
+  background: #ff2ec4;
   border: none;
+  cursor: pointer;
 }
 </style>
 </head>
-
 <body>
 
-<div class="arcade-frame">
-  <header>
-    <h1>CLASSROOM ARCADE</h1>
-    <button onclick="window.location.href='../index.html'">BACK TO ARCADE</button>
-  </header>
+<div class="game-shell">
+  <div id="loading">LOADING GAME…</div>
 
-  <div id="ad-slot">ADVERTISEMENT</div>
+  <!-- BRANDING -->
+  <div class="overlay-brand">CLASSROOM ARCADE</div>
 
-  <!-- Game iframe -->
-  <iframe src="https://dnrweqffuwjtx.cloudfront.net/moto-x3m/" allowfullscreen></iframe>
+  <!-- OPTIONAL FULLSCREEN BUTTON -->
+  <button id="fullscreen-btn" onclick="openFS()">FULLSCREEN</button>
+
+  <!-- GAME IFRAME -->
+  <iframe id="gameFrame" src="https://dnrweqffuwjtx.cloudfront.net/moto-x3m/" allowfullscreen></iframe>
+
+  <!-- AD SLOT -->
+  <div id="ad">ADVERTISEMENT</div>
 </div>
 
+<script>
+const frame = document.getElementById("gameFrame");
+frame.onload = () => {
+  document.getElementById("loading").style.display = "none";
+};
+
+// DISABLE RIGHT CLICK
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// USER-TRIGGERED FULLSCREEN
+function openFS() {
+  document.documentElement.requestFullscreen();
+}
+</script>
 </body>
 </html>
