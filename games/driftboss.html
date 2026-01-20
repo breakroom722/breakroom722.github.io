@@ -2,23 +2,75 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Drift Boss | Classroom Arcade</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Drift Boss | Classroom Games</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
-body, html { margin:0; padding:0; height:100%; display:flex; flex-direction:column; font-family:Arial,sans-serif; background:#0f1220; color:#fff; }
-header { background:#151933; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; }
-header h1 { margin:0; font-size:18px; }
-header button { background:#1b2045; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; }
-iframe { flex:1; width:100%; border:none; }
-footer { background:#151933; text-align:center; padding:6px; font-size:12px; color:#aaa; }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: #070717;
+  font-family: "Press Start 2P", monospace;
+  overflow: hidden;
+}
+
+.frame {
+  height: 100%;
+  border: 16px solid #00fff7;
+  box-shadow: 0 0 40px #00fff7, 0 0 80px #ff2ec4;
+}
+
+.topbar {
+  height: 60px;
+  background: #040410;
+  border-bottom: 4px solid #ff2ec4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  color: #ff2ec4;
+}
+
+.topbar button {
+  font-family: inherit;
+  font-size: 10px;
+  background: #00fff7;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+iframe {
+  width: 100%;
+  height: calc(100% - 120px);
+  border: none;
+}
+
+#ad {
+  height: 60px;
+  background: rgba(255,255,255,0.05);
+  color: #aaa;
+  text-align: center;
+  line-height: 60px;
+  font-size: 10px;
+}
 </style>
 </head>
+
 <body>
-<header>
-<h1>Classroom Games</h1>
-<button onclick="window.location.href='../index.html'">Back to Homepage</button>
-</header>
-<iframe src="https://ubg95.github.io/Drift-Boss/" allowfullscreen></iframe>
-<footer>Enjoy playing! All games playable at school.</footer>
+<div class="frame">
+
+  <div class="topbar">
+    <div>CLASSROOM ARCADE</div>
+    <button onclick="location.href='../index.html'">BACK</button>
+  </div>
+
+  <iframe src="https://dnrweqffuwjtx.cloudfront.net/drift-boss/" allowfullscreen></iframe>
+
+  <div id="ad">ADVERTISEMENT</div>
+
+</div>
 </body>
 </html>
